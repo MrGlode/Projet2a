@@ -37,6 +37,8 @@ public class Monstre extends Personnage {
 		}
 
 	}
+	
+	
 
 	public boolean isHit(ArrayList<Balle> array) {
 		boolean bool = false;

@@ -151,9 +151,11 @@ public class Projet2a extends BasicGame {
 		}
 
 		if (container.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-			System.out.println("CLICK ! x:" + container.getInput().getMouseX()
-					+ " , y:" + container.getInput().getMouseY());
-			this.tir.add(this.hero.tirer(container.getInput().getMouseX(),container.getInput().getMouseY()));
+			//System.out.println("CLICK ! x:" + container.getInput().getMouseX()
+			//		+ " , y:" + container.getInput().getMouseY());
+			Balle b = this.hero.tirer(container.getInput().getMouseX(),container.getInput().getMouseY());
+			b.start();
+			this.tir.add(b);
 		}
 		this.hero.initVisuel();
 		this.hero.verifPos(this.xMax, this.yMax);

@@ -8,40 +8,53 @@ public class Balle extends Thread implements Drawable {
 
 	private int posX;
 	private int posY;
-	private int dirX;
-	private int dirY;
-	private int oriX;
-	private int oriY;
+	private float a;
+	private float b;
 	private String location;
 	private int sizeX;
 	private int sizeY;
 	private Image visuel;
 	private float distance;
 
-	public Balle(int x, int y, int dirX, int dirY) {
-		this.dirX = dirX;
-		this.dirY = dirY;
-		this.posX = x;
-		this.posY = y;
-		this.oriX = x;
-		this.oriY = y;
-		this.sizeX = 6;
-		this.sizeY = 6;
+	public Balle(float x, float y, float dirX, float dirY) {
+		this.a = (dirY - y) / (dirX - x);
+		this.b = y - this.a * x;
+		System.out.println("a:" + a + ",b=" + b);
+		this.posX = (int) x;
+		this.posY = (int) y;
 		this.distance = 350;
 		this.location = "img/balle.png";
-		try {
-			visuel = new Image(this.location);
-		} catch (SlickException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		this.initVisuel();
+	}
 
+	public void run() {
+		for (int i = (int) this.distance; i > 0; i = i - 1) {
+			try {
+				sleep(10);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			int resx = this.posX;
+			int resy = this.posY;
+
+			for (int j = 0; j < 16; j++) {
+				resx = this.posX + (j / 4);
+				resy = (int) (this.a * (resx) + this.b);
+				if (2 == Calc.Distance(this.posX, this.posY, resx, resy)) {
+					j = 16;
+				}
+			}
+			this.posX = resx;
+			this.posY = resy;
+		}
 	}
 
 	public void deplacerBalle() {
-		int[] a = Calc.getNewXY(posX, posY, dirX, dirY,oriX,oriY, 2);
-		this.posX = a[0];
-		this.posY = a[1];
+
+		// this.posX = (int) a[0];
+		// this.posY = (int) a[1];
 		this.distance = this.distance - 2;
 	}
 
@@ -79,16 +92,19 @@ public class Balle extends Thread implements Drawable {
 		return this.sizeX;
 	}
 
-	public int getDirX() {
-		return dirX;
-	}
-
-	public int getDirY() {
-		return dirY;
-	}
-
 	@Override
 	public int getSizeY() {
 		return this.sizeY;
+	}
+
+	@Override
+	public void initVisuel() {
+		try {
+			this.visuel = new Image(this.location);
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}
+		this.sizeX = this.visuel.getWidth();
+		this.sizeY = this.visuel.getHeight();
 	}
 }

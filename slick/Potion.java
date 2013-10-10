@@ -25,7 +25,7 @@ public class Potion {
 				+ 1;
 		this.posY = (int) (Math.random() * ymax) % (ymax - (this.sizeY))
 				+ 1;
-		this.value = 100;
+		this.value = 500;
 		this.setUsed(false);
 	}
 

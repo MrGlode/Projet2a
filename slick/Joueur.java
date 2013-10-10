@@ -27,7 +27,9 @@ public class Joueur extends Personnage {
 		g.drawRect(xmax/4, 5, xmax/2, 20);
 		g.setColor(Color.red);
 		g.fillRect(xmax/4 +1, 6,
-				((xmax/2-1) * this.life) / this.lifemax, 18);
+				((xmax/2-1) * this.life) / this.lifemax, 19);
+		g.setColor(Color.white);
+		g.drawString(this.life+"/"+this.lifemax,xmax/4+2 , 10);
 	}
 	
 	public int getDirection() {
