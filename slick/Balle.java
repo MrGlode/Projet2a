@@ -6,8 +6,8 @@ import org.newdawn.slick.SlickException;
 
 public class Balle extends Thread implements Drawable {
 
-	private int posX;
-	private int posY;
+	private float posX;
+	private float posY;
 	private float a;
 	private float b;
 	private String location;
@@ -15,20 +15,26 @@ public class Balle extends Thread implements Drawable {
 	private int sizeY;
 	private Image visuel;
 	private float distance;
+	private boolean depl;
 
 	public Balle(float x, float y, float dirX, float dirY) {
 		this.a = (dirY - y) / (dirX - x);
 		this.b = y - this.a * x;
-		System.out.println("a:" + a + ",b=" + b);
+		//System.out.println("a:" + a + ",b=" + b);
 		this.posX = (int) x;
 		this.posY = (int) y;
+		if (x < dirX) {
+			this.depl = true;
+		} else {
+			this.depl = false;
+		}
 		this.distance = 350;
 		this.location = "img/balle.png";
 		this.initVisuel();
 	}
 
 	public void run() {
-		for (int i = (int) this.distance; i > 0; i = i - 1) {
+		for (int i = (int) this.distance; i > 0; i --) {
 			try {
 				sleep(10);
 			} catch (InterruptedException e) {
@@ -36,26 +42,32 @@ public class Balle extends Thread implements Drawable {
 				e.printStackTrace();
 			}
 
-			int resx = this.posX;
-			int resy = this.posY;
-
-			for (int j = 0; j < 16; j++) {
-				resx = this.posX + (j / 4);
-				resy = (int) (this.a * (resx) + this.b);
-				if (2 == Calc.Distance(this.posX, this.posY, resx, resy)) {
-					j = 16;
+			float resx = this.posX;
+			float resy = this.posY;
+			float dist = 0;
+			if (this.depl) {
+				for (int j = 0; j < 100; j++) {
+					resx = this.posX + (j / 4);
+					resy = this.a * (resx) + this.b;
+					dist = Calc.Distance(this.posX, this.posY, resx, resy);
+					if (dist - dist / 2 <= 2 && dist + dist / 4 >= 2) {
+						break;
+					}
+				}
+			} else {
+				for (int j = 0; j < 100; j++) {
+					resx = this.posX - (j / 4);
+					resy = this.a * (resx) + this.b;
+					dist = Calc.Distance(this.posX, this.posY, resx, resy);
+					if (dist - dist / 2 <= 2 && dist + dist / 4 >= 2) {
+						break;
+					}
 				}
 			}
-			this.posX = resx;
-			this.posY = resy;
+			this.posX = (int) resx;
+			this.posY = (int) resy;
 		}
-	}
-
-	public void deplacerBalle() {
-
-		// this.posX = (int) a[0];
-		// this.posY = (int) a[1];
-		this.distance = this.distance - 2;
+		this.distance = 0;
 	}
 
 	public float getDistance() {
@@ -72,13 +84,11 @@ public class Balle extends Thread implements Drawable {
 		return this.visuel;
 	}
 
-	@Override
-	public int getPosX() {
+	public float getPosX() {
 		return this.posX;
 	}
 
-	@Override
-	public int getPosY() {
+	public float getPosY() {
 		return this.posY;
 	}
 

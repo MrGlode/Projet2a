@@ -7,6 +7,7 @@ import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.util.Log;
@@ -24,6 +25,7 @@ public class Projet2a extends BasicGame {
 	private ArrayList<Balle> tir;
 	private ArrayList<Potion> item;
 	private int tour;
+	private Image cursor;
 
 	// Il faut un constructeur de base.
 	// Vous noterez que toutes les erreurs seront catchés au moment de
@@ -46,6 +48,8 @@ public class Projet2a extends BasicGame {
 		this.hero = new Joueur(this.xMax, this.yMax);
 		this.tir = new ArrayList<Balle>();
 		this.tour = 1;
+		this.cursor = new Image("img/cible.gif");
+		container.setMouseCursor(this.cursor, 10, 10);
 
 	}
 
@@ -92,15 +96,12 @@ public class Projet2a extends BasicGame {
 			}
 		}
 
-		for (Balle b : this.tir) {
-			b.deplacerBalle();
-		}
 		for (int i = 0; i < tir.size(); i++) {
 			if (tir.get(i).getDistance() == 0) {
 				tir.remove(i);
 			}
 		}
-
+		
 		if (container.getInput().isKeyPressed((Input.KEY_F1))) {
 			this.monstre.add(new Monstre(this.xMax, this.yMax));
 		}
@@ -155,7 +156,7 @@ public class Projet2a extends BasicGame {
 			//		+ " , y:" + container.getInput().getMouseY());
 			Balle b = this.hero.tirer(container.getInput().getMouseX(),container.getInput().getMouseY());
 			b.start();
-			this.tir.add(b);
+			this.tir.add(b); 
 		}
 		this.hero.initVisuel();
 		this.hero.verifPos(this.xMax, this.yMax);

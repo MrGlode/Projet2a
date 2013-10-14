@@ -2,8 +2,8 @@ package slick;
 
 public abstract class Calc {
 
-	static public double Distance(double x1, double y1, double x2, double y2) {
-		return Math.sqrt(Math.pow((y2 - y1), 2) + Math.pow((x2 - x1),2));
+	static public float Distance(float x1, float y1, float x2, float y2) {
+		return (float) Math.sqrt(Math.pow((y2 - y1), 2) + Math.pow((x2 - x1),2));
 	}
 
 	public static float[] getNewXY(float x, float y, float dirx, float diry, float oriX,

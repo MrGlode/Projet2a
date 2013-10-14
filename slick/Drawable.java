@@ -10,9 +10,9 @@ public interface Drawable {
 
 	public Object getVisuel();
 
-	public int getPosX();
+	//public int getPosX();
 
-	public int getPosY();
+//	public int getPosY();
 
 	public String getLocation();
 

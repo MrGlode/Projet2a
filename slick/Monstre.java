@@ -45,7 +45,7 @@ public class Monstre extends Personnage {
 		for (Balle b : array) {
 			if ((b.getPosX() + b.getSizeX() / 2 > this.getPosX()
 					- this.getSizeX() / 2 && b.getPosX() - b.getSizeX() / 2 < this
-					.getPosX() + this.getSizeX() / 2)
+					.getPosX() + this.getSizeX() / 2) 
 					&& (b.getPosY() + b.getSizeY() / 2 > this.getPosY()
 							- this.getSizeY() / 2 && b.getPosY() - b.getSizeY()
 							/ 2 < this.getPosY() + this.getSizeY() / 2)) {
