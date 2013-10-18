@@ -15,8 +15,8 @@ import org.newdawn.slick.util.Log;
 //Il faut étendre la classe BasicGame
 public class Projet2a extends BasicGame {
 
-	private static final int xMax = 1366;
-	private static final int yMax = 768;
+	private static final int xMax = 800;
+	private static final int yMax = 600;
 	private Joueur hero;
 	private ArrayList<Monstre> monstre;
 	private ArrayList<Balle> tir;
@@ -196,7 +196,7 @@ public class Projet2a extends BasicGame {
 			app.setIcons(icons);
 			app.setTargetFrameRate(500);
 			app.setShowFPS(true);
-			app.setDisplayMode(Projet2a.xMax, Projet2a.yMax, true);
+			app.setDisplayMode(Projet2a.xMax, Projet2a.yMax, false);
 			app.start();
 
 		} catch (SlickException e) {

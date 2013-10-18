@@ -29,7 +29,7 @@ public class Balle extends Thread implements Drawable {
 	public void run() {
 		for (; this.distance > 0;) {
 			try {
-				sleep(5);
+				sleep(3);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
