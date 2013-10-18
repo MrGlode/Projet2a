@@ -10,8 +10,8 @@ public class Personnage extends Thread implements Drawable {
 	protected String nom;
 	protected Image visuel;
 	protected String location;
-	protected int posX;
-	protected int posY;
+	protected float posX;
+	protected float posY;
 	protected int sizeX;
 	protected int sizeY;
 	protected int life;
@@ -52,6 +52,7 @@ public class Personnage extends Thread implements Drawable {
 		initVisuel();
 	}
 
+	@Override
 	public void initVisuel() {
 		try {
 			this.visuel = new Image(this.location);
@@ -82,6 +83,7 @@ public class Personnage extends Thread implements Drawable {
 		}
 	}
 
+	@Override
 	public void affich(int xmax, int ymax, Graphics g) {
 		if (life < lifemax && life >= 0 && showMiniLB) {
 			g.setColor(Color.darkGray);
@@ -119,11 +121,11 @@ public class Personnage extends Thread implements Drawable {
 		this.visuel = visuel;
 	}
 
-	public void setPosX(int posX) {
+	public void setPosX(float posX) {
 		this.posX = posX;
 	}
 
-	public void setPosY(int posY) {
+	public void setPosY(float posY) {
 		this.posY = posY;
 	}
 
@@ -131,26 +133,30 @@ public class Personnage extends Thread implements Drawable {
 		return nom;
 	}
 
+	@Override
 	public Image getVisuel() {
 		return visuel;
 	}
 
-	public int getPosX() {
+	public float getPosX() {
 		return posX;
 	}
 
-	public int getPosY() {
+	public float getPosY() {
 		return posY;
 	}
 
+	@Override
 	public String getLocation() {
 		return location;
 	}
 
+	@Override
 	public int getSizeX() {
 		return sizeX;
 	}
 
+	@Override
 	public int getSizeY() {
 		return sizeY;
 	}

@@ -18,34 +18,32 @@ public class Monstre extends Personnage {
 		this.lifemax = 200;
 	}
 
-	public void deplacerMonstre(Joueur j) {
+	public void deplacerMonstre(Joueur j, int delta) {
 
 		if (this.posX + this.getSizeX() / 2 < j.getPosX() + j.getSizeX() / 2) {
-			this.posX++;
+			this.posX = this.posX + 0.25f * delta;
 		}
 
 		if (this.posX + this.getSizeX() / 2 > j.getPosX() + j.getSizeX() / 2) {
-			this.posX--;
+			this.posX = this.posX - 0.25f * delta;
 		}
 
 		if (this.posY + this.getSizeY() / 2 < j.getPosY() + j.getSizeY() / 2) {
-			this.posY++;
+			this.posY = this.posY + 0.25f * delta;
 		}
 
 		if (this.posY + this.getSizeY() / 2 > j.getPosY() + j.getSizeY() / 2) {
-			this.posY--;
+			this.posY = this.posY - 0.25f * delta;
 		}
 
 	}
-	
-	
 
 	public boolean isHit(ArrayList<Balle> array) {
 		boolean bool = false;
 		for (Balle b : array) {
 			if ((b.getPosX() + b.getSizeX() / 2 > this.getPosX()
 					- this.getSizeX() / 2 && b.getPosX() - b.getSizeX() / 2 < this
-					.getPosX() + this.getSizeX() / 2) 
+					.getPosX() + this.getSizeX() / 2)
 					&& (b.getPosY() + b.getSizeY() / 2 > this.getPosY()
 							- this.getSizeY() / 2 && b.getPosY() - b.getSizeY()
 							/ 2 < this.getPosY() + this.getSizeY() / 2)) {
