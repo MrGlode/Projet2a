@@ -1,7 +1,5 @@
 package slick;
 
-import java.awt.event.ContainerListener;
-import java.awt.peer.ContainerPeer;
 import java.util.ArrayList;
 
 import org.newdawn.slick.AppGameContainer;
