@@ -18,6 +18,20 @@ public class Monstre extends Personnage {
 		this.lifemax = 200;
 	}
 
+	public void run(){
+		int t;
+		while(this.life > 0){
+			t=Projet2a.delta*2;
+			try {
+				sleep(t);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			//TODO
+		}
+	}
+	
 	public void deplacerMonstre(Joueur j, int delta) {
 
 		if (this.posX + this.getSizeX() / 2 < j.getPosX() + j.getSizeX() / 2) {

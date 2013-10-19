@@ -1,5 +1,7 @@
 package slick;
 
+import java.awt.event.ContainerListener;
+import java.awt.peer.ContainerPeer;
 import java.util.ArrayList;
 
 import org.newdawn.slick.AppGameContainer;
@@ -17,6 +19,7 @@ public class Projet2a extends BasicGame {
 
 	private static final int xMax = 800;
 	private static final int yMax = 600;
+	public static int delta;
 	private Joueur hero;
 	private ArrayList<Monstre> monstre;
 	private ArrayList<Balle> tir;
@@ -45,6 +48,7 @@ public class Projet2a extends BasicGame {
 		this.tour = 1;
 		this.cursor = new Image("img/cible.gif");
 		container.setMouseCursor(this.cursor, 10, 10);
+		Projet2a.delta = 0;
 
 	}
 
@@ -54,6 +58,7 @@ public class Projet2a extends BasicGame {
 	public void update(GameContainer container, int delta)
 			throws SlickException {
 		this.updateTour();
+		Projet2a.delta = delta;
 		for (Monstre m : this.monstre) {
 			if (m.isHit(this.tir)) {
 				m.setLife(m.getLife() - 1);
@@ -145,7 +150,7 @@ public class Projet2a extends BasicGame {
 
 		}
 
-		if (container.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
+		if (container.getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
 			Balle b = this.hero.tirer(container.getInput().getMouseX(),
 					container.getInput().getMouseY());
 			b.start();
