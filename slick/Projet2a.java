@@ -8,22 +8,21 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.util.Log;
 
 //Il faut étendre la classe BasicGame
 public class Projet2a extends BasicGame {
 
-	private static final int xMax = 800;
-	private static final int yMax = 600;
-	public static int delta;
-	private Joueur hero;
+	static final int xMax = 800;
+	static final int yMax = 600;
+	static int delta;
+	static Joueur hero;
 	private ArrayList<Monstre> monstre;
 	private ArrayList<Balle> tir;
 	private ArrayList<Potion> item;
-	private int tour;
 	private Image cursor;
+	private Control control;
 
 	// Il faut un constructeur de base.
 	// Toutes les erreurs seront catchés au moment de
@@ -41,13 +40,14 @@ public class Projet2a extends BasicGame {
 		this.item.add(new Potion(Projet2a.xMax, Projet2a.yMax));
 		this.monstre = new ArrayList<Monstre>();
 		this.monstre.add(new Monstre(Projet2a.xMax, Projet2a.yMax));
-		this.hero = new Joueur(Projet2a.xMax, Projet2a.yMax);
+		Projet2a.hero = new Joueur(Projet2a.xMax, Projet2a.yMax);
 		this.tir = new ArrayList<Balle>();
-		this.tour = 1;
 		this.cursor = new Image("img/cible.gif");
 		container.setMouseCursor(this.cursor, 10, 10);
 		Projet2a.delta = 0;
-
+		this.control = new Control(this, container);
+		control.start();
+		this.monstre.get(0).start();
 	}
 
 	// Méthode appelé en boucle. C'est ici que l'on fait vivre nos objets
@@ -55,7 +55,6 @@ public class Projet2a extends BasicGame {
 	@Override
 	public void update(GameContainer container, int delta)
 			throws SlickException {
-		this.updateTour();
 		Projet2a.delta = delta;
 		for (Monstre m : this.monstre) {
 			if (m.isHit(this.tir)) {
@@ -63,13 +62,13 @@ public class Projet2a extends BasicGame {
 			}
 		}
 
-		if (this.hero.getLife() < 0) {
-			this.hero.setLife(hero.getLifemax());
+		if (Projet2a.hero.getLife() < 0) {
+
 		}
 
 		for (Potion p : this.item) {
-			if (p.isLoot(this.hero)) {
-				this.hero.heal(p.value);
+			if (p.isLoot(Projet2a.hero)) {
+				Projet2a.hero.heal(p.value);
 			}
 		}
 
@@ -78,7 +77,7 @@ public class Projet2a extends BasicGame {
 					+ hero.getSizeX() > m.getPosX())
 					&& (hero.getPosY() + hero.getSizeY() > m.getPosY() && hero
 							.getPosY() < m.getPosY() + m.getSizeY())) {
-				this.hero.setLife(hero.getLife() - 1);
+				Projet2a.hero.setLife(hero.getLife() - 1);
 			}
 		}
 		for (int i = 0; i < monstre.size(); i++) {
@@ -99,67 +98,7 @@ public class Projet2a extends BasicGame {
 			}
 		}
 
-		if (container.getInput().isKeyPressed((Input.KEY_F1))) {
-			this.monstre.add(new Monstre(Projet2a.xMax, Projet2a.yMax));
-		}
-
-		if (container.getInput().isKeyPressed((Input.KEY_F2))) {
-			this.item.add(new Potion(Projet2a.xMax, Projet2a.yMax));
-		}
-
-		// Si on appuie sur la fleche Haut
-		if (container.getInput().isKeyDown((Input.KEY_DOWN))) {
-			if (this.tour % 2 == 0) {
-				this.hero.setPosY(this.hero.getPosY() + 0.35f * delta);
-				this.hero.setDirection(2);
-				this.hero.setLocation("img/persobas.png");
-				this.hero.setOnMove(true);
-			}
-		}
-		// Si on appuie sur la fleche Bas
-		if (container.getInput().isKeyDown(Input.KEY_UP)) {
-			if (this.tour % 2 == 0) {
-				this.hero.setPosY(this.hero.getPosY() - 0.35f * delta);
-				this.hero.setDirection(0);
-				this.hero.setLocation("img/persohaut.png");
-				this.hero.setOnMove(true);
-			}
-		}
-
-		if (container.getInput().isKeyDown(Input.KEY_RIGHT)) {
-			if (this.tour % 2 == 0) {
-				this.hero.setPosX(this.hero.getPosX() + 0.35f * delta);
-				this.hero.setDirection(1);
-				this.hero.setLocation("img/persodroite.png");
-				this.hero.setOnMove(true);
-			}
-		}
-
-		if (container.getInput().isKeyDown(Input.KEY_LEFT)) {
-			if (this.tour % 2 == 0) {
-				this.hero.setPosX(this.hero.getPosX() - 0.35f * delta);
-				this.hero.setDirection(3);
-				this.hero.setLocation("img/persogauche.png");
-				this.hero.setOnMove(true);
-			}
-		}
-
-		if (container.getInput().isKeyPressed(Input.KEY_SPACE)) {
-
-		}
-
-		if (container.getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
-			Balle b = this.hero.tirer(container.getInput().getMouseX(),
-					container.getInput().getMouseY());
-			b.start();
-			this.tir.add(b);
-		}
-		this.hero.initVisuel();
-		this.hero.verifPos(Projet2a.xMax, Projet2a.yMax);
-		if (this.tour % 6 == 0)
-			for (Monstre m : this.monstre) {
-				m.deplacerMonstre(this.hero, delta);
-			}
+		Projet2a.hero.verifPos(Projet2a.xMax, Projet2a.yMax);
 	}
 
 	// Méthode appelé en boucle. C'est ici qu'on gére l'affichage.
@@ -178,21 +117,15 @@ public class Projet2a extends BasicGame {
 		for (Potion it : this.item) {
 			it.affich(Projet2a.xMax, Projet2a.yMax, g);
 		}
-		this.hero.affich(Projet2a.xMax, Projet2a.yMax, g);
-		this.hero.showLifeBar(Projet2a.xMax, Projet2a.yMax, g);
-	}
-
-	public void updateTour() {
-		tour++;
-		if (tour > 1000) {
-			tour = 1;
-		}
+		Projet2a.hero.initVisuel();
+		Projet2a.hero.affich(Projet2a.xMax, Projet2a.yMax, g);
+		Projet2a.hero.showLifeBar(Projet2a.xMax, Projet2a.yMax, g);
 	}
 
 	public static void main(String[] args) {
 		try {
 			// Démarre un jeux à partir de ma classe
-			
+
 			Projet2a s = new Projet2a();
 			AppGameContainer app = new AppGameContainer(s);
 			String[] icons = { "img/favicon.png", "img/faviconh.png" };
@@ -205,5 +138,74 @@ public class Projet2a extends BasicGame {
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void addMonstre() {
+		this.getMonstre().add(new Monstre(Projet2a.xMax, Projet2a.yMax));
+		this.getMonstre().get(this.getMonstre().size() - 1).start();
+	}
+
+	public static int getDelta() {
+		return delta;
+	}
+
+	public static void setDelta(int delta) {
+		Projet2a.delta = delta;
+	}
+
+	public static Joueur getHero() {
+		return hero;
+	}
+
+	public static void setHero(Joueur hero) {
+		Projet2a.hero = hero;
+	}
+
+	public ArrayList<Monstre> getMonstre() {
+		return monstre;
+	}
+
+	public void setMonstre(ArrayList<Monstre> monstre) {
+		this.monstre = monstre;
+	}
+
+	public ArrayList<Balle> getTir() {
+		return tir;
+	}
+
+	public void setTir(ArrayList<Balle> tir) {
+		this.tir = tir;
+	}
+
+	public ArrayList<Potion> getItem() {
+		return item;
+	}
+
+	public void setItem(ArrayList<Potion> item) {
+		this.item = item;
+	}
+
+	public Image getCursor() {
+		return cursor;
+	}
+
+	public void setCursor(Image cursor) {
+		this.cursor = cursor;
+	}
+
+	public Control getControl() {
+		return control;
+	}
+
+	public void setControl(Control control) {
+		this.control = control;
+	}
+
+	public static int getXmax() {
+		return xMax;
+	}
+
+	public static int getYmax() {
+		return yMax;
 	}
 }

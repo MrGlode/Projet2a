@@ -6,7 +6,7 @@ public class Monstre extends Personnage {
 
 	public Monstre(String nom) {
 		super(nom, "img/monstre.png");
-		this.life = 200;
+		this.life = 2000;
 		this.lifemax = 2000;
 	}
 
@@ -18,36 +18,33 @@ public class Monstre extends Personnage {
 		this.lifemax = 200;
 	}
 
-	public void run(){
-		int t;
+	public synchronized void  run(){
 		while(this.life > 0){
-			t=Projet2a.delta*2;
-			try {
-				sleep(t);
+			try { 
+				sleep(10);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			//TODO
+			this.deplacerMonstre(Projet2a.hero, Projet2a.delta);
 		}
 	}
 	
 	public void deplacerMonstre(Joueur j, int delta) {
 
 		if (this.posX + this.getSizeX() / 2 < j.getPosX() + j.getSizeX() / 2) {
-			this.posX = this.posX + 0.25f * delta;
+			this.posX = this.posX + 0.20f * delta;
 		}
 
 		if (this.posX + this.getSizeX() / 2 > j.getPosX() + j.getSizeX() / 2) {
-			this.posX = this.posX - 0.25f * delta;
+			this.posX = this.posX - 0.20f * delta;
 		}
 
 		if (this.posY + this.getSizeY() / 2 < j.getPosY() + j.getSizeY() / 2) {
-			this.posY = this.posY + 0.25f * delta;
+			this.posY = this.posY + 0.20f * delta;
 		}
 
 		if (this.posY + this.getSizeY() / 2 > j.getPosY() + j.getSizeY() / 2) {
-			this.posY = this.posY - 0.25f * delta;
+			this.posY = this.posY - 0.20f * delta;
 		}
 
 	}

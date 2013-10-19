@@ -26,7 +26,7 @@ public class Balle extends Thread implements Drawable {
 	}
 
 	@Override
-	public void run() {
+	public synchronized void run() {
 		int t;
 		for (; this.distance > 0;) {
 			t=3*Projet2a.delta;
